@@ -137,7 +137,7 @@ def save( filepath,
     import codecs
     file_handle = codecs.open(filepath, 'w', encoding)
 
-    print file_handle.encoding
+    print(file_handle.encoding)
 
     # gather the file content
     data, content = _handle_children( data, mpl.pyplot.gcf() )
@@ -183,7 +183,7 @@ def _tex_comment( comment ):
 def _print_tree( obj, indent = '' ):
     '''Recursively prints the tree structure of the matplotlib object.
     '''
-    print indent, type(obj)
+    print(indent, type(obj))
     for child in obj.get_children():
         _print_tree( child, indent + '   ' )
     return
@@ -292,7 +292,7 @@ def _draw_axes( data, obj ):
         try:
             aspect_num = float(aspect)
         except ValueError:
-            print 'Aspect ratio not a number?!'
+            print('Aspect ratio not a number?!')
 
     if data['fwidth'] and data['fheight']: # width and height overwrite aspect ratio
         axis_options.append( 'width='+data['fwidth'] )
@@ -321,8 +321,8 @@ def _draw_axes( data, obj ):
             axis_options.append( 'width='+data['fwidth'] )
     else:
         if aspect_num:
-            print 'Non-automatic aspect ratio demanded, but neither height ' \
-                  'nor width of the plot are given. Discard aspect ratio.'
+            print('Non-automatic aspect ratio demanded, but neither height ' \
+                  'nor width of the plot are given. Discard aspect ratio.')
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # get ticks
     axis_options.extend( _get_ticks( data, 'x', obj.get_xticks(),
@@ -480,7 +480,7 @@ def _mpl_cmap2pgf_cmap( cmap ):
     in Pgfplots.
     '''
     if not isinstance( cmap, mpl.colors.LinearSegmentedColormap ):
-        print 'Don''t know how to handle color map. Using "blackwhite".'
+        print('Don''t know how to handle color map. Using "blackwhite".')
         is_custom_colormap = False
         return ('blackwhite', is_custom_colormap)
 
@@ -778,9 +778,9 @@ def _mpl_marker2pgfp_marker( data, mpl_marker, is_marker_face_color ):
         pass
 
     if mpl_marker == ',': # pixel
-        print 'Unsupported marker "' + mpl_marker + '".'
+        print('Unsupported marker "' + mpl_marker + '".')
     else:
-        print 'Unknown marker "' + mpl_marker + '".'
+        print('Unknown marker "' + mpl_marker + '".')
 
     return ( data, None, None )
 # ==============================================================================
@@ -799,7 +799,7 @@ def _mpl_linestyle2pgfp_linestyle( line_style ):
     try:
         return MPLLINESTYLE_2_PGFPLOTSLINESTYLE[ line_style ]
     except KeyError:
-        print 'Unknown line style "' + str(line_style) + '".'
+        print('Unknown line style "' + str(line_style) + '".')
         return None
 # ==============================================================================
 def _draw_image( data, obj ):
@@ -908,7 +908,7 @@ def _extract_colorbar( obj ):
     if not colorbars:
         return None
     if not _equivalent( colorbars ):
-        print 'More than one color bar found. Use first one.'
+        print('More than one color bar found. Use first one.')
 
     return colorbars[0]
 # ==============================================================================
@@ -928,7 +928,7 @@ def _equivalent( array ):
 def _draw_polycollection( data, obj ):
     '''Returns Pgfplots code for a number of polygons. Currently empty.
     '''
-    print 'matplotlib2tikz: Don''t know how to draw a PolyCollection.'
+    print('matplotlib2tikz: Don''t know how to draw a PolyCollection.')
     return data, ''
 # ==============================================================================
 def _draw_patchcollection( data, obj ):
@@ -1104,7 +1104,7 @@ def _draw_path( data, path,
             # can be emulated as cubic Beziers.
             # From
             # http://www.latex-community.org/forum/viewtopic.php?t=4424&f=45:
-            # If you really need a quadratic Bézier curve on the points P0, P1
+            # If you really need a quadratic Bezier curve on the points P0, P1
             # and P2, then a process called 'degree elevation' yields the cubic
             # control points (Q0, Q1, Q2 and Q3) as follows:
             #   CODE: SELECT ALL
@@ -1422,8 +1422,8 @@ def _handle_children( data, obj ):
              ):
             pass
         else:
-            print 'matplotlib2tikz: Don''t know how to handle object "%s".' % \
-                  type(child)
+            print('matplotlib2tikz: Don''t know how to handle object "%s".' % \
+                  type(child))
 
     # XXX: This is ugly
     if isinstance(obj, mpl.axes.Subplot) or isinstance(obj, mpl.figure.Figure):
@@ -1439,14 +1439,14 @@ def _print_pgfplot_libs_message( data ):
     pgfplotslibs = ','.join( list( data['pgfplots libs'] ) )
     tikzlibs = ','.join( list( data['tikz libs'] ) )
 
-    print '========================================================='
-    print 'Please add the following line to your LaTeX preamble:\n'
-    print '\usepackage{pgfplots}'
+    print('=========================================================')
+    print('Please add the following line to your LaTeX preamble:\n')
+    print('\\usepackage{pgfplots}')
     if tikzlibs:
-        print '\usetikzlibrary{'+ tikzlibs +'}'
+        print('\\usetikzlibrary{'+ tikzlibs +'}')
     if pgfplotslibs:
-        print '\usepgfplotslibrary{' + pgfplotslibs + '}'
-    print '========================================================='
+        print('\\usepgfplotslibrary{' + pgfplotslibs + '}')
+    print('=========================================================')
 
     return
 # ==============================================================================
