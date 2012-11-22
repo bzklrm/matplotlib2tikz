@@ -29,7 +29,7 @@ def basic_sin():
         s = np.sin( 2*np.pi*t )
         pp.plot( t, s, ':' )
 
-        pp.xlabel('time(s) _ % $ \\')
+        pp.xlabel('time(s)')
         pp.ylabel('Voltage (mV)')
         pp.title('Easier than easy $\\frac{1}{2}$')
         pp.grid( True )
@@ -64,7 +64,7 @@ def image_plot():
     from matplotlib import rcParams
     try:
         import Image
-    except ImportError, exc:
+    except ImportError as exc:
         raise SystemExit('PIL must be installed to run this example')
 
     lena = Image.open('lena.png')
